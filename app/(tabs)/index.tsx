@@ -1,75 +1,161 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { useRouter } from 'expo-router';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.screen}>
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Welcome to MindTrack</Text>
+        <Text style={styles.subtitle}>
+          A safe space to express yourself, track your mood, and receive personalized wellness tips.
+        </Text>
+
+        <View style={styles.moodBox}>
+          <Text style={styles.label}>Log Mood</Text>
+          <TextInput style={styles.input} placeholder="How are you feeling?" />
+        </View>
+
+        <View style={styles.buttonRow}>
+          <TouchableOpacity style={styles.buttonBlue}>
+            <Text style={styles.buttonText}>😊 Self care routine</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonGreen}>
+            <Text style={styles.buttonText}>📖 Write Journal</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.tipBox}>
+          <Text style={styles.tipTitle}>💡 Tip of the Day</Text>
+          <Text style={styles.tipText}>
+            “Try a 10-minute mindful meditation before bed to improve sleep quality.”
+          </Text>
+          <TouchableOpacity>
+            <Text style={styles.tipLink}>See all self-care Tips</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.messageBox}>
+          <Text style={styles.messageTitle}>🔔 New message from Buddy</Text>
+          <TouchableOpacity>
+            <Text style={styles.messageLink}>→ Tap to view</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+
+      {/* Floating Buddy Button */}
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => router.push('/(tabs)/chat')}
+      >
+        <Text style={styles.floatingText}>🧠</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  screen: {
+    flex: 1,
+    position: 'relative',
   },
-  stepContainer: {
-    gap: 8,
+  container: {
+    padding: 20,
+    backgroundColor: '#f4f0fa',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#532d80',
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  subtitle: {
+    fontSize: 16,
+    marginBottom: 20,
+    color: '#555',
+  },
+  moodBox: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+    marginBottom: 20,
+  },
+  buttonBlue: {
+    backgroundColor: '#dbeafe',
+    padding: 15,
+    borderRadius: 10,
+    flex: 1,
+  },
+  buttonGreen: {
+    backgroundColor: '#bbf7d0',
+    padding: 15,
+    borderRadius: 10,
+    flex: 1,
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  tipBox: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+    borderLeftWidth: 4,
+    borderLeftColor: '#fde68a',
+  },
+  tipTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  tipText: {
+    marginBottom: 8,
+  },
+  tipLink: {
+    color: '#3b82f6',
+    textDecorationLine: 'underline',
+  },
+  messageBox: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    borderLeftWidth: 4,
+    borderLeftColor: '#fca5a5',
+  },
+  messageTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  messageLink: {
+    color: '#ef4444',
+  },
+  floatingButton: {
     position: 'absolute',
+    bottom: 30,
+    right: 20,
+    backgroundColor: '#6366f1',
+    padding: 15,
+    borderRadius: 50,
+    elevation: 5,
+  },
+  floatingText: {
+    fontSize: 24,
+    color: 'white',
   },
 });
